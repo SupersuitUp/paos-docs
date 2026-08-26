@@ -410,6 +410,23 @@ claude plugin marketplace list | grep -A1 paos-workspace
    the Granola date guards, and repo invariants including ledger ordering. Run it before
    proposing any change to this template.
 
+### → v1.14.0 (the ledger and installers moved; access is checked up front)
+
+1. **Nothing changes for the owner.** `supersuit.wiki/skills/upgrade-paos-framework/SKILL.md`
+   still resolves — it now redirects to this file's public home rather than serving a copy.
+   Any workspace with that URL baked in keeps working.
+2. **`bootstrap.sh` now checks repo access before creating anything** and exits 3 with an
+   explanation if the account cannot see the template. Previously a missing grant surfaced as
+   `Could not resolve to a Repository` three steps into a half-built workspace.
+3. **If the owner has a pinned install command saved anywhere**, the installers moved:
+   ```
+   https://raw.githubusercontent.com/SupersuitUp/paos-docs/main/scripts/bootstrap.sh
+   ```
+   They now track `main` in a repo whose only job is holding them, so an install always gets
+   the current bootstrap instead of whatever tag the docs last mentioned.
+4. Nothing to run. This entry exists so a workspace upgrading THROUGH this version knows why
+   the URLs it may have recorded have changed.
+
 *(New versions APPEND here, below the last entry — never prepend. Step 3 says to apply
 every entry in order, so a ledger written out of order silently upgrades in the wrong
 sequence, and the workspaces that traverse the most versions are the ones it hits. A
