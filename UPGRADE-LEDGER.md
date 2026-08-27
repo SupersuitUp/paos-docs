@@ -490,6 +490,30 @@ claude plugin marketplace list | grep -A1 paos-workspace
 3. It reads the PUBLIC docs repo, so it works without auth even though the template itself is
    granted per account.
 
+### → v1.19.0 (a local usage log)
+
+1. **Nothing to install.** A PostToolUse hook appends one line per skill invocation to a log
+   inside your own workspace. It records THAT a skill ran and when. It never records what the
+   skill was about, who it was about, or anything it read or wrote.
+2. **It stays on your machine.** Nothing is transmitted. Delete the log whenever you like;
+   nothing depends on it existing.
+3. Its purpose is to answer "which parts of this do I actually use" with evidence instead of
+   memory, before you decide what to prune.
+
+### → v1.20.0 (message-contact works on stock macOS Python again)
+
+1. **Upgrade if you are on v1.9.0 through v1.19.0 — `message-contact` was broken for you.**
+   It used a type annotation (`Path | None`) that Python evaluates at import time and that only
+   exists in Python 3.10+. macOS ships Python 3.9.6 and nothing here asks you to install another,
+   so on a stock Mac the skill died on startup with `TypeError: unsupported operand type(s) for
+   |` before doing anything. If you tried to send a message any time in that range and it failed
+   with a traceback, this was why. Nothing you did was wrong.
+2. **Nothing to configure.** The fix is one import; behavior is otherwise identical.
+3. Every Python script shipped here is now imported under Python 3.9 by the test suite, so the
+   floor is enforced rather than assumed. The original bug survived review because the
+   maintainer's plugin cache was still on an older version — the new code was never the code
+   being run.
+
 *(New versions APPEND here, below the last entry — never prepend. Step 3 says to apply
 every entry in order, so a ledger written out of order silently upgrades in the wrong
 sequence, and the workspaces that traverse the most versions are the ones it hits. A
