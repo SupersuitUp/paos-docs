@@ -479,6 +479,17 @@ claude plugin marketplace list | grep -A1 paos-workspace
    and error — never transcript text, contact names, or message bodies. An owner who is not
    sure what gets sent will not use it, which costs more than any single bug.
 
+### → v1.18.0 (you will be told when you are behind)
+
+1. **Nothing to install.** A SessionStart hook now compares this workspace's
+   `TEMPLATE-VERSION` against the newest entry in this ledger, and prints the upgrade paths
+   ONLY when behind. Silent when current, silent offline, silent outside a workspace.
+2. **Tell the owner it exists and that it will not nag.** The reason it says nothing when
+   current is that a hook which speaks every session gets ignored, and is then useless the day
+   it matters. If they see it, they are genuinely behind.
+3. It reads the PUBLIC docs repo, so it works without auth even though the template itself is
+   granted per account.
+
 *(New versions APPEND here, below the last entry — never prepend. Step 3 says to apply
 every entry in order, so a ledger written out of order silently upgrades in the wrong
 sequence, and the workspaces that traverse the most versions are the ones it hits. A
