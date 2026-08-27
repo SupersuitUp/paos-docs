@@ -439,6 +439,27 @@ claude plugin marketplace list | grep -A1 paos-workspace
    that assumes a sync ran misses meetings; one that re-syncs every time to be safe burns an
    API call per run and buries any real signal in noise.
 
+### → v1.16.0 (Google Docs auth works on current gog)
+
+1. **If the owner uses the Google Docs skill, this was broken for them.** `gog` 0.38.x moved
+   the OAuth client secret into the OS keyring, and the skill still read it from
+   `credentials.json` — so every call sent `client_secret=undefined` and got `invalid_client`.
+   Anyone who installed `gog` via Homebrew has 0.38.x. Confirm the fix landed:
+   ```bash
+   grep -c "access_token_expires_at" .agents/skills/create-or-update-google-doc/scripts/auth.mjs
+   ```
+2. **If they chased this before, tell them it was never their Google Cloud setup.** `gog`
+   itself keeps working (it reads the secret from the keyring), so the CLI succeeds while the
+   skill fails with "invalid client" — every signal points at Cloud Console and none of it is
+   the problem. Reported by an operator who lost real time to that trail.
+3. **Re-check their Google Cloud setup anyway if the skill has never worked**, because the old
+   docs said "no additional auth setup needed" and that was wrong. Drive must be enabled (the
+   skill creates a folder, so it 403s without it), the app must be PUBLISHED or refresh tokens
+   expire after seven days, and the OAuth client must be **Desktop app** — the dropdown
+   defaults to Web application, which produces a file `gog` cannot use at all.
+4. Nothing to install. `gog` needs no upgrade or downgrade; the skill now works on both sides
+   of 0.38.
+
 *(New versions APPEND here, below the last entry — never prepend. Step 3 says to apply
 every entry in order, so a ledger written out of order silently upgrades in the wrong
 sequence, and the workspaces that traverse the most versions are the ones it hits. A
