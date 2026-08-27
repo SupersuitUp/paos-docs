@@ -5,7 +5,7 @@ description: Locate and fetch the current PAOS upgrade ledger. The full ledger i
 
 # PAOS Upgrade Ledger — version index
 
-**Latest version: v1.25.0**
+**Latest version: v1.26.0**
 
 This file is public on purpose, and it is deliberately thin.
 
@@ -64,3 +64,4 @@ order.
 ### → v1.23.0 (WhatsApp path fix, accounts, and usage analytics)
 ### → v1.24.0 (paos login, and a portal of your own)
 ### → v1.25.0 (saying plainly what the analytics record)
+### → v1.26.0 (your Granola sync stops forgetting itself)
