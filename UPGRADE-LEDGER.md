@@ -5,7 +5,7 @@ description: Locate and fetch the current PAOS upgrade ledger. The full ledger i
 
 # PAOS Upgrade Ledger — version index
 
-**Latest version: v1.24.0**
+**Latest version: v1.25.0**
 
 This file is public on purpose, and it is deliberately thin.
 
@@ -63,3 +63,4 @@ order.
 ### → v1.22.0 (PAOS now ships from a client repo)
 ### → v1.23.0 (WhatsApp path fix, accounts, and usage analytics)
 ### → v1.24.0 (paos login, and a portal of your own)
+### → v1.25.0 (saying plainly what the analytics record)
