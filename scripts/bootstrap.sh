@@ -26,7 +26,20 @@
 
 set -uo pipefail
 
-TEMPLATE_REPO="SupersuitUp/personal-agentic-os-workspace-template"
+# The CLIENT repo. PAOS ships from here: the workspace template, the plugin
+# marketplace, the upgrade ledger and the issue tracker are all this one repo, and
+# read access to it is what makes someone a client.
+#
+# It moved here in v1.22.0, and this installer was NOT updated at the time. For a
+# stretch, the publicly advertised one-command install pointed at the development
+# repo, which a client cannot read: the upgrade path was migrated and the INSTALL
+# path was not. If you move distribution again, grep for the old name everywhere
+# before you consider it done.
+TEMPLATE_REPO="${PAOS_CLIENT_REPO:-SupersuitUp/paos}"
+
+# Where PAOS used to ship. Only used to RECOGNISE a workspace created before the
+# move, so an existing operator is not told they have no workspace.
+LEGACY_REPO="SupersuitUp/personal-agentic-os-workspace-template"
 PROJECTS_DIR="$HOME/Documents/github-repos"
 APPS_DIR="${PAOS_APPS_DIR:-/Applications}"   # overridable so tests can exercise the cold path
 LOG_FILE="$HOME/.paos-setup.log"
@@ -283,7 +296,8 @@ if [[ -z "$WORKSPACE_NAME" ]]; then
   existing=""
   for d in "$PROJECTS_DIR"/*/; do
     [[ -d "$d" ]] || continue
-    if [[ -f "$d/AGENTS.md" ]] && git -C "$d" remote get-url upstream 2>/dev/null | grep -q "$TEMPLATE_REPO"; then
+    if [[ -f "$d/AGENTS.md" ]] && git -C "$d" remote get-url upstream 2>/dev/null \
+         | grep -qE "$TEMPLATE_REPO|$LEGACY_REPO"; then
       if [[ -z "$existing" ]]; then existing="$(basename "$d")"; else existing="__multiple__"; fi
     fi
   done
