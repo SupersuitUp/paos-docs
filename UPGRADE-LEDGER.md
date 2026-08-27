@@ -514,6 +514,23 @@ claude plugin marketplace list | grep -A1 paos-workspace
    maintainer's plugin cache was still on an older version — the new code was never the code
    being run.
 
+### → v1.21.0 (the "you are behind" notice now reaches plugin installs)
+
+1. **Nothing to install, but this is the one that was silently missing.** The session-start
+   version notice only ever fired for workspaces carrying a `TEMPLATE-VERSION` file. If you were
+   set up through the plugin — no `.agents/` folder of your own, every skill served from the
+   plugin cache — it never had anything to key off, so it said nothing, forever, however far
+   behind you got. That is the shape most people are actually installed in.
+2. **It now reads the running plugin's version and compares that instead**, and tells you the one
+   command that helps your shape: `claude plugin update paos`. It does not offer
+   `/upgrade-paos-framework` to a plugin install, because there is no file layer there to merge.
+3. Still silent when current, silent offline, silent in unrelated directories, and silent rather
+   than guessing if it cannot determine your version.
+4. **Why this mattered more than it looks:** the maintainer's own plugin cache sat six versions
+   stale precisely because nothing told him. That is how the v1.9.0 `message-contact` break
+   reached v1.19.0 unnoticed — the broken code was shipped to everyone, and the one machine that
+   would have caught it was never running it. A fix you are not told about is not a fix.
+
 *(New versions APPEND here, below the last entry — never prepend. Step 3 says to apply
 every entry in order, so a ledger written out of order silently upgrades in the wrong
 sequence, and the workspaces that traverse the most versions are the ones it hits. A
