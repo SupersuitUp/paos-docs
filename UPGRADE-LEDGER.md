@@ -5,7 +5,7 @@ description: Locate and fetch the current PAOS upgrade ledger. The full ledger i
 
 # PAOS Upgrade Ledger — version index
 
-**Latest version: v1.32.0**
+**Latest version: v1.33.0**
 
 This file is public on purpose, and it is deliberately thin.
 
@@ -71,3 +71,4 @@ order.
 ### → v1.30.0 (iMessage and WhatsApp sync)
 ### → v1.31.0 (golden work sessions)
 ### → v1.32.0 (CiCi knows where you left off; keeping a session folds into saving)
+### → v1.33.0 (CiCi greets you with what you were doing)
