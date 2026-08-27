@@ -427,6 +427,18 @@ claude plugin marketplace list | grep -A1 paos-workspace
 4. Nothing to run. This entry exists so a workspace upgrading THROUGH this version knows why
    the URLs it may have recorded have changed.
 
+### → v1.15.0 (Granola heartbeat)
+
+1. **Nothing to install.** `sync-granola` gained `check.mjs`, which answers "are there new
+   meetings I have not synced?" without doing the sync:
+   ```bash
+   node .agents/skills/sync-granola/scripts/check.mjs --verbose
+   ```
+2. **Worth telling the owner it exists**, because the value is in what it lets them skip. Run
+   it before a sync, and before anything that depends on a sync having happened. A routine
+   that assumes a sync ran misses meetings; one that re-syncs every time to be safe burns an
+   API call per run and buries any real signal in noise.
+
 *(New versions APPEND here, below the last entry — never prepend. Step 3 says to apply
 every entry in order, so a ledger written out of order silently upgrades in the wrong
 sequence, and the workspaces that traverse the most versions are the ones it hits. A
