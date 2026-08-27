@@ -460,6 +460,25 @@ claude plugin marketplace list | grep -A1 paos-workspace
 4. Nothing to install. `gog` needs no upgrade or downgrade; the skill now works on both sides
    of 0.38.
 
+### → v1.17.0 (a way to report PAOS bugs)
+
+1. **Tell the owner it exists**, because the whole value is that they use it instead of
+   staying quiet:
+   ```
+   /report-upstream
+   ```
+   It dedupes against existing issues, redacts, drafts, and posts only after they approve.
+   It texts the maintainer for bugs and security findings, never feature requests.
+2. **Confirm the merge:**
+   ```bash
+   ls .agents/skills/report-upstream/SKILL.md
+   ```
+3. **It needs `gh` authenticated.** If it is not, the skill saves the draft in the workspace
+   and offers to text instead rather than losing it.
+4. **Say plainly what leaves the machine.** The report contains the skill, version, command
+   and error — never transcript text, contact names, or message bodies. An owner who is not
+   sure what gets sent will not use it, which costs more than any single bug.
+
 *(New versions APPEND here, below the last entry — never prepend. Step 3 says to apply
 every entry in order, so a ledger written out of order silently upgrades in the wrong
 sequence, and the workspaces that traverse the most versions are the ones it hits. A
