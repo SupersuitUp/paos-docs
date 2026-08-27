@@ -67,4 +67,4 @@ order.
 ### → v1.26.0 (your Granola sync stops forgetting itself)
 ### → v1.27.0 (CiCi, and a log of what you actually got done)
 ### → v1.28.0 (CiCi offers a save, and texts you the breadcrumb)
-### → v1.29.0 (she is spelled CiCi)
+### → v1.29.0 (she is called CiCi)
