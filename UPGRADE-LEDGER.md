@@ -5,7 +5,7 @@ description: Locate and fetch the current PAOS upgrade ledger. The full ledger i
 
 # PAOS Upgrade Ledger — version index
 
-**Latest version: v1.36.0**
+**Latest version: v1.37.0**
 
 This file is public on purpose, and it is deliberately thin.
 
@@ -75,3 +75,4 @@ order.
 ### → v1.34.0 (CiCi was silent for two reasons, both fixed)
 ### → v1.35.0 (harvest-and-compound: the step that makes the next session cheaper)
 ### → v1.36.0 (process-my-convos: one front door for every conversation)
+### → v1.37.0 (one obvious way to update, and two fewer ways to get it wrong)
