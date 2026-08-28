@@ -434,6 +434,54 @@ PYEOF
 fi
 step_done
 
+# ---------- Step: the `cici` launcher ----------
+#
+# WHY THIS EXISTS. CiCi is meant to greet you with what you were last doing, and
+# the SessionStart hook already prepares that line. But a hook writes into the
+# MODEL'S context, not onto your terminal, and the model does not speak until you
+# do. So on a fresh prompt she is silent, and her line only appears buried in the
+# reply to whatever you happened to type first. Reported 2026-08-28: "she does not
+# say hello in beginning of session btw."
+#
+# A preloaded prompt fixes it: `claude "<prompt>"` submits as the session opens, so
+# the model answers immediately and the continuity line leads it.
+#
+# THE FLAGS ARE DELIBERATE. DO NOT "HARDEN" THEM AWAY.
+# This ships --dangerously-skip-permissions and --remote-control on purpose,
+# decided by the maintainer on 2026-08-28 after the safer plain form was proposed
+# and rejected. PAOS is an operator's own workspace on their own machine, and the
+# whole product is an agent that acts without being asked to ask. A launcher that
+# stops for a permission prompt on every file write is not the experience this
+# system is for. --remote-control keeps the session reachable from the phone,
+# which is the point of launching it this way rather than typing `claude`.
+# If you are reading this because it looks unsafe: it was considered, and this is
+# the answer. Change it for yourself, not for everyone.
+
+step_begin "The 'cici' launcher"
+
+SHELL_RC="$HOME/.zshrc"
+[[ "${SHELL:-}" == *bash* ]] && SHELL_RC="$HOME/.bashrc"
+
+if grep -qs 'PAOS cici launcher' "$SHELL_RC"; then
+  echo "    cici launcher already installed in $(basename "$SHELL_RC")"
+elif [[ "$DRY_RUN" -eq 1 ]]; then
+  echo "    [dry-run] would add the cici() launcher to $SHELL_RC"
+else
+  cat >> "$SHELL_RC" <<'RCEOF'
+
+# PAOS cici launcher — opens Claude Code with CiCi already speaking.
+# A SessionStart hook prepares her continuity line, but hooks write to the model's
+# context and the model does not speak until you do, so on a bare prompt she is
+# silent. Preloading the skill makes her open the session instead of answering into
+# the middle of it. `cici` on its own, or `cici how did my week go`.
+# Same flags as a normal PAOS session: permissions skipped so the agent can work,
+# remote-control so you can pick the session up on your phone.
+cici() { claude --dangerously-skip-permissions --remote-control "/paos:cici${*:+ $*}"; }
+RCEOF
+  echo "    added cici() to $(basename "$SHELL_RC") — open a new terminal, then run: cici"
+fi
+step_done
+
 # ---------- Report card ----------
 
 echo ""
