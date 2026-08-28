@@ -476,7 +476,12 @@ else
 # the middle of it. `cici` on its own, or `cici how did my week go`.
 # Same flags as a normal PAOS session: permissions skipped so the agent can work,
 # remote-control so you can pick the session up on your phone.
-cici() { claude --dangerously-skip-permissions --remote-control "/paos:cici${*:+ $*}"; }
+# THE `--` IS LOAD-BEARING. --remote-control takes an OPTIONAL [name], so without
+# the separator the shell hands it the prompt and it is consumed as the session
+# NAME. The session then opens with Remote Control on, an empty prompt box, and
+# nothing submitted, which looks exactly like the launcher silently not working.
+# Caught 2026-08-28 by launching it and seeing an empty box.
+cici() { claude --dangerously-skip-permissions --remote-control -- "/paos:cici${*:+ $*}"; }
 RCEOF
   echo "    added cici() to $(basename "$SHELL_RC") — open a new terminal, then run: cici"
 fi
