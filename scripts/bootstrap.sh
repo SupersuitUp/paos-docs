@@ -446,14 +446,18 @@ step_done
 # A preloaded prompt fixes it: `claude "<prompt>"` submits as the session opens, so
 # the model answers immediately and the continuity line leads it.
 #
-# THE FLAGS ARE DELIBERATE. DO NOT "HARDEN" THEM AWAY.
-# This ships --dangerously-skip-permissions and --remote-control on purpose,
-# decided by the maintainer on 2026-08-28 after the safer plain form was proposed
-# and rejected. PAOS is an operator's own workspace on their own machine, and the
-# whole product is an agent that acts without being asked to ask. A launcher that
-# stops for a permission prompt on every file write is not the experience this
-# system is for. --remote-control keeps the session reachable from the phone,
-# which is the point of launching it this way rather than typing `claude`.
+# THE FLAGS ARE DELIBERATE. DO NOT "HARDEN" THEM AWAY, AND DO NOT LOOSEN THEM.
+# This ships --permission-mode auto and --remote-control on purpose. The plain
+# form was proposed and rejected by the maintainer on 2026-08-28: PAOS is an
+# operator's own workspace on their own machine, and the whole product is an agent
+# that acts without being asked to ask. A launcher that stops for a permission
+# prompt on every file write is not the experience this system is for. The first
+# answer to that was --dangerously-skip-permissions; the maintainer replaced it
+# later the same day with --permission-mode auto, which keeps routine work
+# unprompted while genuinely risky actions still stop and ask, so a brand-new
+# operator does not get a session with no guardrails on day one.
+# --remote-control keeps the session reachable from the phone, which is the point
+# of launching it this way rather than typing `claude`.
 # If you are reading this because it looks unsafe: it was considered, and this is
 # the answer. Change it for yourself, not for everyone.
 
@@ -474,14 +478,15 @@ else
 # context and the model does not speak until you do, so on a bare prompt she is
 # silent. Preloading the skill makes her open the session instead of answering into
 # the middle of it. `cici` on its own, or `cici how did my week go`.
-# Same flags as a normal PAOS session: permissions skipped so the agent can work,
-# remote-control so you can pick the session up on your phone.
+# Same flags as a normal PAOS session: auto mode so the agent can work without a
+# prompt on every write while risky actions still stop and ask, and remote-control
+# so you can pick the session up on your phone.
 # THE `--` IS LOAD-BEARING. --remote-control takes an OPTIONAL [name], so without
 # the separator the shell hands it the prompt and it is consumed as the session
 # NAME. The session then opens with Remote Control on, an empty prompt box, and
 # nothing submitted, which looks exactly like the launcher silently not working.
 # Caught 2026-08-28 by launching it and seeing an empty box.
-cici() { claude --dangerously-skip-permissions --remote-control -- "/paos:cici${*:+ $*}"; }
+cici() { claude --permission-mode auto --remote-control -- "/paos:cici${*:+ $*}"; }
 RCEOF
   echo "    added cici() to $(basename "$SHELL_RC") — open a new terminal, then run: cici"
 fi
